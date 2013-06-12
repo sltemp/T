@@ -92,7 +92,7 @@ int len;
 
   do 
   {
-  len = readLine("e7t: ", command_line, 255);
+  len = readLine("LDS2000: ", command_line, 255);
   cb = CLI(command_line);
   } while (!cb);
 }

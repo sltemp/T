@@ -58,7 +58,7 @@
  * Description  : interface to the low level drivers. io conform
  *                with DDF 0.01 specification.
  * OS           : SLOS 0.09
- * Platform     : e7t
+ * Platform     : LDS2000
  * History      :
  *
  * 20th November 2001 Andrew N. Sloss
@@ -70,7 +70,7 @@
  * IMPORT 
  *****************************************************************************/
 
-#include "../e7t/devices/ddf_tree.h"
+#include "../LDS2000/devices/ddf_tree.h"
 
 /*****************************************************************************
  * ROUTINES 
@@ -92,6 +92,7 @@ device_treestr *driver = devices;
 
   while (*driver->init != 0) 
   {
+
   driver->init();
   driver ++;
   }

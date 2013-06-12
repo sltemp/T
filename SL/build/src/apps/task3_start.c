@@ -100,7 +100,7 @@ void banner (void)
 printToHost ("\n\r");
 printToHost ("\n\rSimple Little OS (0.09)\n\r");
 printToHost ("- initialized ...... OK\n\r");
-printToHost ("- running on ....... e7t \n\r");
+printToHost ("- running on ....... LDS2000\n\r");
 printToHost ("\n\r");
 printToHost ("\n\r");
 }

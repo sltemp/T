@@ -57,7 +57,7 @@
  * Module       : readline.c
  * Description  : provides all readline functions
  * OS           : SLOS 0.09
- * Platform	: e7t
+ * Platform	: LDS2000
  * History      :
  *
  * 16th November 2001 Andrew N. Sloss
@@ -270,7 +270,6 @@ int c;
   do 
   {
   c=readC();
-	
     if (c == CR || c == LF) 
     {
     buffer[pos] = 0;
@@ -305,7 +304,7 @@ int readLine (char *prompt, char *buffer, int maxlen)
 {
 int i;
 int pos = 0;
-int c;
+int c=0;
 
 *buffer = 0;
 write0(prompt);
@@ -322,6 +321,7 @@ write0(prompt);
       backspace(pos);
       pos = 0;
       break;
+
       case BACK:
         if (pos > 0) 
         {
@@ -329,6 +329,7 @@ write0(prompt);
         pos--;
         }
       break;
+
       case ERASE_FWD:
         if (xstrlen(buffer) == 0) 
         {
@@ -337,10 +338,12 @@ write0(prompt);
         }
       delete(buffer, pos);
       break;
+
       case END:
       redraw_eol(buffer, pos);
       pos = xstrlen(buffer);
       break;
+
       case FORWARD:
         if (buffer[pos]) 
         {
@@ -348,6 +351,7 @@ write0(prompt);
         pos++;
         }
       break;
+
       case ERASE:
         if (pos > 0) 
         {
@@ -356,14 +360,17 @@ write0(prompt);
         delete(buffer, pos);
         }
       break;
+
       case ENTER:
       writeC(CR);
       writeC(LF);
       return xstrlen(buffer);
+
       case REDRAW:
       writeC(LF);
       redraw_line(prompt, buffer, pos);
       break;
+
       case ERASE_LINE:
       backspace(pos);
       i = pos = xstrlen(buffer);

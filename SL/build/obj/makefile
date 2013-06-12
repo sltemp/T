@@ -40,16 +40,16 @@ task2_start.o \
 task3_start.o
 
 all : ${OBJS}
-	${LINKER} -o ../image/slos.elf linker.dat
+	${LINKER} -o ../image/slos.elf -T linker.dat
 	${CONVERT} ../image/slos.bin -s ../image/slos.elf
 
 start.o : ../src/start.s
 	${ASSEMBLER} ${ASFLAGS} -o $@ $<
  
-init.o : ../src/e7t/init.s
+init.o : ../src/LDS2000/init.s
 	${ASSEMBLER} ${ASFLAGS} -o $@ $<
  
-pcb.o : ../src/e7t/pcb.s
+pcb.o : ../src/LDS2000/pcb.s
 	${ASSEMBLER} ${ASFLAGS} -o $@ $<
  
 undef.o : ../src/undef.s
@@ -76,7 +76,7 @@ fiq.o : ../src/fiq.s
 scheduler.o : ../src/scheduler.s
 	${ASSEMBLER} ${ASFLAGS} -o $@ $<
  
-irq_handler.o : ../src/e7t/events/irq_handler.s
+irq_handler.o : ../src/LDS2000/events/irq_handler.s
 	${ASSEMBLER} ${ASFLAGS} -o $@ $<
  
 bringup.o : ../src/events/bringup.s
@@ -85,31 +85,31 @@ bringup.o : ../src/events/bringup.s
 cpsr.o : ../src/events/cpsr.s
 	${ASSEMBLER} ${ASFLAGS} -o $@ $<
  
-event_init.o : ../src/e7t/events/event_init.c
+event_init.o : ../src/LDS2000/events/event_init.c
 	${CC} ${CFLAGS} -o $@ $<
  
-button_service.o : ../src/e7t/events/button_service.c
+button_service.o : ../src/LDS2000/events/button_service.c
 	${CC} ${CFLAGS} -o $@ $<
  
 swiapi.o : ../src/core/swiapi.c
 	${CC} ${CFLAGS} -o $@ $<
 
-swi_handler.o : ../src/e7t/events/swi_handler.c
+swi_handler.o : ../src/LDS2000/events/swi_handler.c
 	${CC} ${CFLAGS} -O1 -c -o $@ $<
 
-tick_service.o : ../src/e7t/events/tick_service.c
+tick_service.o : ../src/LDS2000/events/tick_service.c
 	${CC} ${CFLAGS} -o $@ $<
  
 ddf_io.o : ../src/devices/ddf_io.c
 	${CC} ${CFLAGS} -o $@ $<
  
-led_driver.o : ../src/e7t/devices/led_driver.c
+led_driver.o : ../src/LDS2000/devices/led_driver.c
 	${CC} ${CFLAGS} -o $@ $<
  
-serial_driver.o : ../src/e7t/devices/serial_driver.c
+serial_driver.o : ../src/LDS2000/devices/serial_driver.c
 	${CC} ${CFLAGS} -o $@ $<
  
-segment_driver.o : ../src/e7t/devices/segment_driver.c
+segment_driver.o : ../src/LDS2000/devices/segment_driver.c
 	${CC} ${CFLAGS} -o $@ $<
  
 mutex.o : ../src/core/mutex.c
@@ -141,3 +141,6 @@ task2_start.o : ../src/apps/task2_start.c
  
 task3_start.o : ../src/apps/task3_start.c
 	${CC} ${CFLAGS} -o $@ $<
+
+clean:
+	rm -rf *.o

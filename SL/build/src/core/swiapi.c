@@ -1,5 +1,5 @@
 
-#include "../e7t/events/swis.h"
+#include "../LDS2000/events/swis.h"
 #include "../devices/ddf_frame.h"
 
 #define UINT unsigned int
@@ -276,7 +276,7 @@ registerstr tmpReg;
   tmpReg.r[1] = (UINT) a;
   tmpReg.r[2] = b;
   tmpReg.r[3] = 0;
-	
+
   coreCallSWI(&tmpReg);
 }
 

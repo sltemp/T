@@ -45,7 +45,7 @@ CurrentTask:
 NextTask:
      ADD     r0,r0,#1  
      CMP     r0,#3
-     MOVEQ   r0,#0        
+     MOVEQ   r0,#0   
      STR     r0,[r3]      
      LDR     r1,=PCB_Table
      LDR     r1,[r1,r0,LSL#2]    
@@ -62,7 +62,6 @@ NextTask:
 */
 
 handler_contextswitch:
-
      LDMFD   sp!,{r0-r3,r12,r14}    
      LDR     r13,=PCB_PtrCurrentTask
      LDR     r13,[r13]
@@ -77,6 +76,6 @@ handler_contextswitch:
      MSR     spsr_cxsf, r0
      LDMIA   r13,{r0-r14}^         
      LDR     r13,=PCB_TopOfIRQStack
-     LDR     r13,[r13]              
-     MOVS    pc,r14                 
+     LDR     r13,[r13]
+     MOVS    pc,r14
      .end

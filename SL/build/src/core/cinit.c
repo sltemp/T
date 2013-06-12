@@ -57,7 +57,7 @@
  * Module       : cinit.c
  * Description  : initialize the command line and task1 
  * OS           : SLOS 0.09
- * Platform     : e7t
+ * Platform     : LDS2000
  * History      :
  *
  * 10th November 2001 Andrew N. Sloss
@@ -73,7 +73,7 @@
  *****************************************************************************/
 
 #include "all.h"
-#include "../e7t/events/event_init.h"
+#include "../LDS2000/events/event_init.h"
 
 /*****************************************************************************
  * MACROS
@@ -131,7 +131,6 @@ STATE = LOW_LEVEL_INITIALIZATION;
   *
   * ------------------------------------------------------------------- 
   */
-
 lltrace(eventIODeviceInit(),DEVICESINIT);
 
  /* -------------------------------------------------------------------
@@ -179,9 +178,13 @@ int C_Entry(void)
   *
   * -------------------------------------------------------------------
   */
+__REG((unsigned int) BOOT_SWI) = 0xe51ff004;		// ldr pc, [pc, #-4]
+__REG((unsigned int)(BOOT_SWI+1))= (unsigned int)0xa0000008;	
 
+__REG((unsigned int) BOOT_IRQ) = 0xe51ff004;		// ldr pc, [pc, #-4]
+__REG((unsigned int)(BOOT_IRQ+1))= (unsigned int)0xa0000018;
 lltrace(cinit_init(),CINITINIT);
-	
+
  /* -------------------------------------------------------------------
   *
   * Start the periodic timer. This will not effect the system until 
@@ -201,7 +204,7 @@ lltrace(eventTickStart(),TICKSTART);
 
 STATE=BOOT_SLOS;
 
-  asm volatile ("MSR  CPSR_c,#0x50");
+  asm volatile ("MSR  CPSR_c,#0x52");
 
  /* -------------------------------------------------------------------
   *

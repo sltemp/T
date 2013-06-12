@@ -57,7 +57,7 @@
  *	Module        : com.h
  * 	Descriptions  : Provides serial API functions. 
  *	OS            : SLOS
- *	Platform      : e7t
+ *	Platform      : LDS2000
  *	History       :
  *
  *	1st June 2002 Andrew N. Sloss

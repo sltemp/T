@@ -57,7 +57,7 @@
  * Module      : all.h
  * Description : brings in all the specific core headers
  * OS          : SLOS 0.09
- * Platform    : e7t
+ * Platform    : LDS2000
  * History     :
  *
  * 16th November 2001 Andrew N. Sloss
@@ -90,9 +90,8 @@
 
 /* Bring in all the headers for the platform ..... */
 
-#include "../e7t/headers/all.h"
+#include "../LDS2000/headers/all.h"
 #include "../headers/api_device.h"
 #include "../headers/api_lldebug.h"
-
 #endif
 

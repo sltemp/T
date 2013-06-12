@@ -57,7 +57,7 @@
  * Module       : ddf_frame.h
  * Description  : Simple low level Device Driver Framework
  * OS           : SLOS 0.09
- * Platform     : e7t
+ * Platform     : LDS2000
  * History      : 
  *
  * 19th November 2001 Andrew N. Sloss

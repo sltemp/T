@@ -57,7 +57,7 @@
  * Description  : interface to the low level drivers. io conform
  *                with DDF 0.01 specification.
  * OS           : SLOS 0.09
- * Platform     : e7t
+ * Platform     : LDS2000
  * History      :
  *
  * 20th November 2001 Andrew N. Sloss

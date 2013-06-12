@@ -71,7 +71,7 @@
 #ifndef LLDEBUG
 #define LLDEBUG 1
 
-#include "../e7t/events/swis.h"
+#include "../LDS2000/events/swis.h"
 
 /*****************************************************************************
  * MACRO

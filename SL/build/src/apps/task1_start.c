@@ -73,22 +73,22 @@
 
 #include "../headers/api_types.h"
 #include "../devices/ddf_io.h"
-#include "../e7t/devices/ddf_types.h"
+#include "../LDS2000/devices/ddf_types.h"
 
-#include "../e7t/events/swis.h"
+#include "../LDS2000/events/swis.h"
 #include "../headers/api_device.h"
 
-#define GREEN1      0
-#define RED         2
-#define ORANGE      1
-#define GREEN2      3
+#define LED 0
+
 
 /*****************************************************************************
  * STATICS
  *****************************************************************************/
 
-device_treestr *red_host;
-UID rled;
+device_treestr *led_host;
+UID led;
+int ledValue=0;
+
 
 /*****************************************************************************
  * ROTUINES
@@ -104,7 +104,7 @@ UID rled;
  *
  */
 
-BOOL openRedLED(void) 
+BOOL openLED(void) 
 { 
 unsigned int delay;
 /* --------------------------------------------------------------
@@ -116,34 +116,20 @@ unsigned int delay;
  * --------------------------------------------------------------
  */
 
-red_host = eventIODeviceOpen(&rled,DEVICE_LED_E7T,RED);
+led_host = eventIODeviceOpen(&led,DEVICE_LED_LDS2000,LED);
+
 
   /* check that a device driver is found ... */
 
-  /*
-  if (red_host==0) {
+  
+  if (led_host==0) {
     while (1) 
     {
     delay=0xBEEF0401;
     };
   return FALSE;
   }
-  */
-
-  /* check the UID .................. */
-
-  switch (rled) 
-  {
-  case DEVICE_IN_USE:
-  case DEVICE_UNKNOWN:
   
-    /* while (1) 
-    {
-    delay=0xBEEF0201;
-    }; */
-
-	return FALSE;
-  } 
   	
 return TRUE; 
 }
@@ -158,8 +144,8 @@ return TRUE;
  *
  */
 
-void switchOnRedLED(void)
-{eventIODeviceWriteBit(red_host,rled,(UINT)1);}
+void switchLED(BYTE value)
+{eventIODeviceWriteByte(led_host,led,(BYTE)value);}
 
 /* -- switchOffRedLED ---------------------------------------------------------
  *
@@ -170,9 +156,6 @@ void switchOnRedLED(void)
  * Notes	:
  *
  */
-
-void switchOffRedLED(void)
-{eventIODeviceWriteBit(red_host,rled,(UINT)0);}
 
 /* -- C_EntryTask1 ------------------------------------------------------------
  *
@@ -188,23 +171,16 @@ void switchOffRedLED(void)
 void C_EntryTask1(void)
 {
 volatile int delay;
-
-  if (openRedLED ()==TRUE)
+  if (openLED()==TRUE)
   {
-    switchOnRedLED ();
     while (1) 
     {
-    aWAIT;
-    switchOnRedLED ();
-
-    /* dummy time delay... */
-    for (delay=0; delay<0x20ffff; delay++) {} 
-  
-    aSIGNAL;
-    switchOffRedLED ();
-    
-    /* dummy time delay... */
-    for (delay=0; delay<0x20ffff; delay++) {}
+	bWAIT;
+    	for (delay=0; delay<0x0Affff; delay++) {}
+		if(ledValue>=255)
+			ledValue=0;
+		else ledValue++;
+		switchLED((BYTE)ledValue);
     }
   }
 

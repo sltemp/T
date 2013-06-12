@@ -1,5 +1,7 @@
 /* a list of files to be linked */
 
+OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
+OUTPUT_ARCH(arm)
 INPUT( start.o 
        init.o 
        pcb.o 
@@ -39,48 +41,15 @@ OUTPUT("slos.elf")
 
 ENTRY(_start)
 
-MEMORY
-{
-  SRAM   : o = 0, l = 0x80000
-}
-
-
 SECTIONS
 {
-  .start :
-  {
-    __start_start = .;
-    *(.start);
-    __start_end = .;
-  } > SRAM
 
-  .text :
-  {
-     __text_start = .;
-     *(.text)
-     *(strings)
-     __text_end = .;
-  } > SRAM
+	. = 0xa0000000;
 
-  .bss :
-  {
-     __bss_start = .;
-     *(.text)
-     *(strings)
-     __bss_end = .;
-  } > SRAM
+	.text ALIGN(4) : { *(.text) }
+	.rodata ALIGN(4) : { *(.rodata) }
+	.data ALIGN(4) : { *(.data) }
+	.got ALIGN(4) : { *(.got) }
+	.bss ALIGN(4) : { *(.bss) }
 
-  .rodata :
-  {
-     __rodata_start = .;
-     *(.rodata)
-     __rodata_end = .;
-  } > SRAM
-
-  .data :
-  {
-     __data_start = .;
-     *(.data)
-     __data_end = .;
-  } > SRAM
 }

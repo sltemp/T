@@ -6,8 +6,8 @@ cd ..\..\build\image & del *.bin
 cd ..\..\build\obj
 
 arm-elf-as  -o start.o ..\src\start.s
-arm-elf-as  -o init.o ..\src\e7t\init.s
-arm-elf-as  -o pcb.o ..\src\e7t\pcb.s
+arm-elf-as  -o init.o ..\src\LDS2000\init.s
+arm-elf-as  -o pcb.o ..\src\LDS2000\pcb.s
 arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o swiapi.o ..\src\core\swiapi.c
 arm-elf-as  -o undef.o ..\src\undef.s
 arm-elf-as  -o swi.o ..\src\swi.s
@@ -17,17 +17,17 @@ arm-elf-as  -o reserved.o ..\src\reserved.s
 arm-elf-as  -o irq.o ..\src\irq.s
 arm-elf-as  -o fiq.o ..\src\fiq.s
 arm-elf-as  -o scheduler.o ..\src\scheduler.s
-arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -O1 -c -o swi_handler.o ..\src\e7t\events\swi_handler.c
-arm-elf-as  -o irq_handler.o ..\src\e7t\events\irq_handler.s
+arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -O1 -c -o swi_handler.o ..\src\LDS2000\events\swi_handler.c
+arm-elf-as  -o irq_handler.o ..\src\LDS2000\events\irq_handler.s
 arm-elf-as  -o bringup.o ..\src\events\bringup.s
 arm-elf-as  -o cpsr.o ..\src\events\cpsr.s
-arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o event_init.o ..\src\e7t\events\event_init.c
-arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o button_service.o ..\src\e7t\events\button_service.c
-arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o tick_service.o ..\src\e7t\events\tick_service.c
+arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o event_init.o ..\src\LDS2000\events\event_init.c
+arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o button_service.o ..\src\LDS2000\events\button_service.c
+arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o tick_service.o ..\src\LDS2000\events\tick_service.c
 arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o ddf_io.o ..\src\devices\ddf_io.c
-arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o led_driver.o ..\src\e7t\devices\led_driver.c
-arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o serial_driver.o ..\src\e7t\devices\serial_driver.c
-arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o segment_driver.o ..\src\e7t\devices\segment_driver.c
+arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o led_driver.o ..\src\LDS2000\devices\led_driver.c
+arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o serial_driver.o ..\src\LDS2000\devices\serial_driver.c
+arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o segment_driver.o ..\src\LDS2000\devices\segment_driver.c
 arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o mutex.o ..\src\core\mutex.c
 arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o cinit.o ..\src\core\cinit.c
 arm-elf-gcc -mapcs -fomit-frame-pointer -O1 -c -o cli_com.o ..\src\core\cli_com.c

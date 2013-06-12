@@ -57,7 +57,7 @@
  * Module       : cli_serial.c
  * Descriptions : Provides serial API functions. 
  * OS           : SLOS 0.09
- * Platform     : e7t
+ * Platform     : LDS2000
  * History      :
  *
  * 1st June 2002 Andrew N. Sloss
@@ -71,9 +71,9 @@
 
 #include "../headers/api_types.h"
 #include "../devices/ddf_io.h"
-#include "../e7t/devices/ddf_types.h"
+#include "../LDS2000/devices/ddf_types.h"
 
-#include "../e7t/events/swis.h"
+#include "../LDS2000/events/swis.h"
 #include "../headers/api_device.h"
 
 /*****************************************************************************
@@ -108,7 +108,7 @@ BOOL openHost(UINT com)
 
   if (com>1) {return FALSE;}
 
-host = eventIODeviceOpen(&serial,DEVICE_SERIAL_E7T,com);
+host = eventIODeviceOpen(&serial,DEVICE_SERIAL_LDS2000,com);
 
   /* check that a device driver is found ... */
 

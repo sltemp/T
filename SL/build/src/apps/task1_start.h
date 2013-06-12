@@ -56,7 +56,7 @@
  *
  * Module       : task1_start.h
  * Description  : a continuous task
- * Platform     : e7t
+ * Platform     : LDS2000
  * History      :
  *
  * 2000-03-27 Andrew N. Sloss

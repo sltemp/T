@@ -47,50 +47,52 @@
  * 
  * 
  */
-/**************************************************************
+ 
+/*****************************************************************************
  * Simple Little Operating System - SLOS
- **************************************************************/
+ *****************************************************************************/
 
-/***************************************************************
+/*****************************************************************************
  *
- * Module       : _e7t_task2_start.c
- * Description  : This is an application that continuous runs
- *                until interrupted by a periodic interrupt
+ * Module       : task1_start.c
+ * Description  : Shell TASK routine that toggles the LED2
  * Platform     : e7t
  * History      :
- *		
- * 2000-03-26 Andrew N. Sloss
- * - implememtented on ARM Evaluator7T
  *
- * Notes        : none...
+ * 2000-03-27 Andrew N. Sloss
+ * - implemented on Evalautor7T
+ * - added header and changed the delay time
  *
- ***************************************************************/
+ *****************************************************************************/
 
-/***************************************************************
+/*****************************************************************************
  * IMPORT
- ***************************************************************/
+ *****************************************************************************/
+
 #include "../core/mutex.h"
 
 #include "../headers/api_types.h"
 #include "../devices/ddf_io.h"
-#include "../e7t/devices/ddf_types.h"
+#include "../LDS2000/devices/ddf_types.h"
 
-#include "../e7t/events/swis.h"
+#include "../LDS2000/events/swis.h"
 #include "../headers/api_device.h"
 
-#define GREEN1      0
-#define RED         2
-#define ORANGE      1
-#define GREEN2      3
+#define SEGMENT0 0
 
+/*****************************************************************************
+ * STATICS
+ *****************************************************************************/
+
+device_treestr *segment0_host;
+UID segment0;
+
+extern int ledValue;
 /*****************************************************************************
  * ROTUINES
  *****************************************************************************/
 
-device_treestr *orange_host;
-UID oled;
-
-/* -- openOrangeLED -----------------------------------------------------------
+/* -- openRedLED --------------------------------------------------------------
  *
  * Description   : opens the communication port to the red LED
  *
@@ -100,91 +102,40 @@ UID oled;
  *
  */
 
-BOOL openOrangeLED (void) 
+BOOL openSegment0(void) 
 { 
+volatile int delay;
+  	segment0_host = eventIODeviceOpen(&segment0,DEVICE_SEGMENT_LDS2000,SEGMENT0);
 
-/* --------------------------------------------------------------
- * eventIODeviceOpen - 
- * open the LED driver node...
- * --------------------------------------------------------------
- */
+  if (segment0_host==0) {
+    while (1) 
+    {
+    delay=0xBEEF0401;
+    };
+  return FALSE;
+  }
 
-orange_host = eventIODeviceOpen(&oled,DEVICE_LED_E7T,ORANGE);
-
-  /* check that a device driver is found ... */
-
-  if (orange_host==0) {return FALSE;}
-
-  /* check the UID .................. */
-
-  switch (oled) 
-  {
-  case DEVICE_IN_USE:
-  case DEVICE_UNKNOWN:
-
-	return FALSE;
-  } 
-  	
 return TRUE; 
 }
 
-/* -- switchOnOrangeLED -------------------------------------------------------
- *
- * Description  : switches on the Orange LED
- *
- * Parameter    : none...
- * Return       : none...
- * Notes	:
- *
- */
-
-void switchOnOrangeLED (void)
-{eventIODeviceWriteBit(orange_host,oled,(UINT)1);}
-
-/* -- switchOffOrangeLED ------------------------------------------------------
- *
- * Description  : switches off the Orange LED
- *
- * Parameter    : none...
- * Return       : none...
- * Notes	:
- *
- */
-
-void switchOffOrangeLED (void)
-{eventIODeviceWriteBit(orange_host,oled,(UINT)0);}
-
-/* -- C_EntryTask2 ------------------------------------------------------------
- *
- * Description : C entry point for task 2
- * 
- * Parameters  : none...
- * Return      : none...
- * Other       :
- *
- * This task executes continuously
- *
- */
+void showSegment0(BYTE value)
+{eventIODeviceWriteByte(segment0_host,segment0,(BYTE)value);}
 
 void C_EntryTask2(void)
 {
 volatile int delay;
-
-  if (openOrangeLED ()==TRUE)
+int temp=0,i=0;
+  if (openSegment0()==TRUE)
   {
+	 
     while (1) 
     {
-    bWAIT;
-    switchOnOrangeLED ();
-
-    /* dummy time delay...*/
-    for (delay=0; delay<0x10ffff; delay++) {} 
-  
-    bSIGNAL;
-    switchOffOrangeLED ();
-
-    /* dummy time delay...*/
-    for (delay=0; delay<0x10ffff; delay++) {}
+	temp=0;
+	for(i=0;i<8;i++){
+		temp+=(ledValue>>i)%2;
+	}
+		showSegment0((BYTE)temp);	
+	bSIGNAL;
     }
   }
 
@@ -194,7 +145,7 @@ volatile int delay;
 
   while (1) 
   {
-  delay=0xBEEF0002;
+  delay=0xBEEF0001;
   };
 }
 
